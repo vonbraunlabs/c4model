@@ -1,0 +1,41 @@
+@startuml contexto
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+
+title Diagrama de Contexto - <Nome do projeto>
+
+
+skinparam legend {
+  BackgroundColor lightyellow
+  BorderColor black
+  FontSize 12
+  FontColor black
+}
+
+legend
+  |= **Sigla** |= **Significado** |
+  | Ex | Descrição |
+  | SaaS | Software as a Service|
+endlegend
+
+
+Person(usuario, "User", "Descrição")
+
+System(seu_projeto, "Nome do seu projeto", "Descrição")
+System(Outro_sistema, "Nome do sistema", "Descrição")
+System_Ext(mail_system, "Nome do sistema externo", "Descrição")
+
+
+Rel(usuario, seu_projeto, "tipo do uso")
+Rel(seu_projeto,Outro_sistema, "tipo do uso")
+Rel(seu_projeto, mail_system, "tipo do uso")
+
+note as TopLeftNote3
+== Resumo ==
+Resumo do seu projeto
+end note
+
+caption "Data de Alteração:11/09/2024 - Autor: Diogo Puppim de Oliveira" 
+
+@enduml

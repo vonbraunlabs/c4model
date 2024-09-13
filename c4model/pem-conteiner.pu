@@ -1,0 +1,47 @@
+@startuml conteiner
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include DEVICONS/angular.puml
+!include DEVICONS/dotnet.puml
+!include DEVICONS/java.puml
+!include DEVICONS/msql_server.puml
+!include FONTAWESOME/server.puml
+!include FONTAWESOME/envelope.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Diagrama de Container - < Nome do projeto >
+
+
+Person(customer, "User", "Descrição")
+
+System_Boundary(c1, "Sistema 1") {
+    Container(spa, "Single-Page App", "JavaScript, Angular", "Descrição", "angular")
+    ContainerDb(database, "PostgreSQL", "SQL Database", "Descrição", "mysql_server")
+    Container(backend_api, "API Application", "Java, Docker Container", "Descrição", "server")
+}
+
+System_Boundary(c2, "Sistema 2") {
+    Container(Container2_1, "Container2_1", "Jenkins", "Descrição", "java")
+    Container(Container2_2, "Container2_2", "S3", "Descrição")
+}
+
+
+
+System_Ext(email_system, "E-Mail System", "The internal postfix system", "envelope")
+
+Rel(customer, spa, "Uses", "HTTPS")
+Rel(backend_api, Container2_1, "Uses", "HTTPS")
+Rel(Container2_1, Container2_2, "Uses", "Send logs and code compiled using")
+
+
+Rel(spa, backend_api, "Uses", "async, JSON/HTTPS")
+Rel_Back_Neighbor(database, backend_api, "Reads from and writes to", "sync, JDBC")
+
+Rel_Back(customer, email_system, "Sends e-mails to")
+Rel_Back(email_system, backend_api, "Sends e-mails using", "sync, SMTP")
+
+caption "Data de Alteração:11/09/2024 - Autor: Diogo Puppim de Oliveira" 
+
+@enduml

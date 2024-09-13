@@ -1,0 +1,51 @@
+@startuml componente
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+' uncomment the following line and comment the first to use locally
+' !include C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Diagrama de componentes - <Nome do projeto>
+
+
+Container(spa, "Single Page Application", "javascript and angular", "Descrição")
+ContainerDb(db, "Database", "PostgreSQL", "Descrição")
+System_Ext(email_system, "E-Mail System", "The internal Postfix system", "envelope")
+Container(Container_1, "Container_1", "Nome_1", "Descrição", "java")
+Container(Container_2, "Container_2", "Nome_2", "Descrição")
+
+Container_Boundary(api, "API Application") {
+    Component(authorizeController, "AuthorizeController", ".NET Core", "Descrição")
+    Component(passwordController, "PasswordController", ".NET Core", "Descrição")
+    Component(Component_0, "Component_0", ".NET Core", "Descrição")
+    Component(fileController, "FileController", ".NET Core", "Descrição")
+    
+    
+    Component(userService, "UserService", ".NET Core", "Descrição")
+    Component(emialService, "EmialService", ".NET Core", "Sends emails to users")
+    Component(Component_1, "Component_1", ".NET Core", "Descrição")
+
+    Rel(authorizeController, userService, "Uses")
+    Rel(userService, db, "Uses","ADO.NET")
+
+    Rel(passwordController, emialService, "Uses")
+    Rel(emialService, email_system, "Uses")
+
+   
+    Rel(Component_0, Component_1, "Uses", "JSON/HTTPS")
+    Rel(Component_1, db, "Uses", "ADO.NET")
+    Rel(Component_1, Container_1, "Uses", "JSON/HTTPS")
+
+    Rel(fileController, Container_2, "Read & write to", "JSON/HTTPS")
+    
+}
+
+
+Rel(spa, authorizeController, "Uses", "JSON/HTTPS")
+Rel(spa, passwordController, "Uses", "JSON/HTTPS")
+Rel(spa, fileController, "Uses", "JSON/HTTPS")
+Rel(spa, Component_0, "Uses", "JSON/HTTPS")
+
+caption "Data de Alteração:11/09/2024 - Autor: Diogo Puppim de Oliveira" 
+
+@enduml
